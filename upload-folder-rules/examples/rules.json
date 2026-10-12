@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "enabled": true,
+  "rules": [
+    { "id": "canvas-pdf", "name": "交大 Canvas · PDF 作业", "domain": "oc.sjtu.edu.cn", "includeSubdomains": true, "pathPrefix": "/", "type": "custom", "customAccept": ".pdf", "enabled": false },
+    { "id": "example-images", "name": "示例站点 · 图片", "domain": "example.com", "includeSubdomains": true, "pathPrefix": "/", "type": "images", "enabled": false },
+    { "id": "example-projects", "name": "示例站点 · 工程文件", "domain": "example.com", "includeSubdomains": true, "pathPrefix": "/projects", "type": "custom", "customAccept": ".zip,.psd,.cmo3,.json", "enabled": false }
+  ]
+}

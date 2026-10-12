@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "上传文件夹规则",
+  "version": "1.0.1",
+  "description": "为网站及其子域名绑定上传文件夹，按文件类型、页面路径或上传控件区分规则。",
+  "permissions": [
+    "storage",
+    "scripting"
+  ],
+  "optional_host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "管理上传文件夹规则"
+  },
+  "options_page": "options.html",
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "bridge.html",
+        "bridge.js"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'"
+  }
+}

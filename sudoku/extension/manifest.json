@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "数独手记 · Sudoku.com 完成记录",
+  "version": "1.0.0",
+  "description": "自动记录 Sudoku.com 的成功完成次数、类型、难度与日期。仅本地保存，支持统计、补记与备份。",
+  "minimum_chrome_version": "111",
+  "host_permissions": ["https://sudoku.com/*", "https://www.sudoku.com/*"],
+  "background": {"service_worker": "background/service-worker.js", "type": "module"},
+  "action": {"default_title": "数独手记", "default_popup": "popup.html", "default_icon": {"16": "icons/icon16.png", "32": "icons/icon32.png"}},
+  "icons": {"16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png"},
+  "options_page": "dashboard.html",
+  "content_scripts": [
+    {"matches": ["https://sudoku.com/*", "https://www.sudoku.com/*"], "js": ["content/capture.js"], "run_at": "document_idle", "all_frames": false},
+    {"matches": ["https://sudoku.com/*", "https://www.sudoku.com/*"], "js": ["content/page-bridge.js"], "run_at": "document_idle", "world": "MAIN", "all_frames": false}
+  ],
+  "content_security_policy": {"extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'; frame-src 'none'"},
+  "incognito": "not_allowed"
+}

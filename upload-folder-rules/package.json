@@ -1,0 +1,17 @@
+{
+  "name": "upload-folder-rules",
+  "version": "1.0.1",
+  "private": true,
+  "description": "Local-only Microsoft Edge upload folder rules",
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "test:browser": "node tools/browser-test.cjs",
+    "package": "python tools/package.py"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数独手记</title>
+  <link rel="stylesheet" href="ui/style.css">
+</head>
+<body class="popup-page">
+  <main class="popup-shell">
+    <header class="brand-row">
+      <span class="brand-mark" aria-hidden="true"><span>3</span><span></span><span>9</span><span></span><span>5</span><span></span><span>1</span><span></span><span>7</span></span>
+      <div><h1 class="brand-name">数独手记</h1><p class="brand-subtitle">Sudoku.com 完成统计</p></div>
+      <span class="local-chip">本机</span>
+    </header>
+    <div id="popupFeedback" class="feedback" role="alert" hidden></div>
+    <section class="popup-total" aria-label="完成次数">
+      <p class="eyebrow">累计完成</p>
+      <div><strong id="popupTotal">—</strong><span class="unit">局</span></div>
+      <p class="muted small">自动记录与手动补记合计</p>
+      <span class="hero-doodle" aria-hidden="true">✳</span>
+    </section>
+    <section class="popup-stats" aria-label="近期统计">
+      <div><span>今天</span><strong id="popupToday">—</strong></div>
+      <div><span>最近 7 天</span><strong id="popupSeven">—</strong></div>
+    </section>
+    <section id="captureCard" class="capture-card" aria-live="polite">
+      <div class="status-heading"><span id="captureDot" class="status-dot waiting" aria-hidden="true"></span><h2 id="captureTitle">正在查看记录状态</h2></div>
+      <p id="captureMessage">正在连接当前页面…</p>
+      <span id="captureLabels" class="capture-labels" hidden></span>
+    </section>
+    <section id="recoveryBox" class="popup-recovery" aria-label="待保存数据恢复" hidden>
+      <div class="button-row"><button id="retryPending" class="button quiet small-button" type="button">重试保存</button><button id="exportRecovery" class="button quiet small-button" type="button">导出待恢复数据</button></div>
+      <p>待恢复数据是供修复使用的诊断备份，不能当作普通记录备份直接导入。导出不代表已经记入统计。</p>
+    </section>
+    <div id="recoveryFeedback" class="feedback" role="alert" hidden></div>
+    <button id="openDashboard" class="button primary full-width" type="button">打开统计页 <span aria-hidden="true">↗</span></button>
+    <a class="popup-site-link" href="https://sudoku.com/zh/extreme/" target="_blank" rel="noreferrer">去玩一局数独 <span aria-hidden="true">↗</span></a>
+    <footer class="popup-footer">记录保存在当前浏览器 · 建议定期备份</footer>
+  </main>
+  <script type="module" src="ui/popup.js"></script>
+</body>
+</html>

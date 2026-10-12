@@ -1,0 +1,5 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>选择上传文件</title><link rel="stylesheet" href="ui.css"><script src="core.js" defer></script><script src="db.js" defer></script><script src="picker.js" defer></script></head><body><main class="picker">
+<div class="eyebrow">Upload folder rules</div><h1>从绑定的文件夹选择文件</h1><p id="target" class="target muted">正在连接当前网页…</p>
+<section class="panel"><div class="field"><label for="rule">本次使用的规则</label><select id="rule" disabled></select></div><div class="folder-box"><div id="folder-name" class="folder-name">正在读取文件夹…</div><p id="folder-hint" class="muted"></p><div class="actions"><button id="bind" disabled>更换绑定文件夹</button></div></div><p id="accept" class="hint"></p><button id="choose" class="primary wide" disabled>选择文件并交给网页</button><p class="hint">在系统窗口选好文件后，会触发网页原有上传流程。某些网站会立即上传你选中的文件。</p><div id="picked"></div></section>
+<div id="status" class="status" role="status" aria-live="polite"></div><div class="actions" style="margin-top:18px"><button id="cancel">取消</button><span class="muted">原上传方式可在网页右下角使用。</span></div>
+</main></body></html>

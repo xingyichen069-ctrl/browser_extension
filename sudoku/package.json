@@ -1,0 +1,19 @@
+{
+  "name": "sudoku-journal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A small, local-first completion journal for Sudoku.com on Microsoft Edge.",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "test:database": "node --test tests/db-browser.mjs",
+    "test:browser": "node tools/browser-test.cjs --stress",
+    "package": "python tools/package.py"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

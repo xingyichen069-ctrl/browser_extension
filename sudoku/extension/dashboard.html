@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>数独手记 · 完成统计</title>
+  <link rel="stylesheet" href="ui/style.css">
+</head>
+<body class="dashboard-page">
+  <a class="skip-link" href="#mainContent">跳到主要内容</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand-row brand-link" href="#overview" aria-label="数独手记，总览">
+        <span class="brand-mark" aria-hidden="true"><span>3</span><span></span><span>9</span><span></span><span>5</span><span></span><span>1</span><span></span><span>7</span></span>
+        <div><span class="brand-name">数独手记</span><span class="brand-subtitle">SUDOKU JOURNAL</span></div>
+      </a>
+      <nav class="main-nav" aria-label="页面导航"><a href="#overview">总览</a><a href="#records">完成记录</a><a href="#backup">备份与迁移</a><a href="#guide">使用说明</a></nav>
+      <a class="button quiet header-play" href="https://sudoku.com/zh/extreme/" target="_blank" rel="noreferrer">去玩一局 <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+
+  <main id="mainContent" class="dashboard-shell">
+    <div id="mainFeedback" class="feedback" role="alert" hidden></div>
+    <div id="capacityNotice" class="feedback feedback-info" role="status" aria-live="polite" hidden></div>
+    <section id="overview" class="overview-section">
+      <div class="section-top intro-row">
+        <div><h1>数独完成统计</h1><p class="intro-copy">按类型、难度和日期查看完成记录。数据仅保存在本机。</p></div>
+        <div class="intro-actions"><span id="todayLabel" class="date-label"></span><button id="addManual" class="button primary" type="button"><span aria-hidden="true">＋</span> 补记一局</button></div>
+      </div>
+      <aside id="onboarding" class="onboarding" hidden>
+        <span class="onboarding-symbol" aria-hidden="true">✦</span>
+        <div><h2>开始使用</h2><p>安装后刷新 sudoku.com 网页，打开工具栏图标确认连接；检测到新的成功完成后，将自动保存记录。以前的成绩可以手动补记。</p><a href="#guide">查看安装与使用说明 <span aria-hidden="true">→</span></a></div>
+      </aside>
+      <div class="metric-grid" aria-label="完成统计">
+        <article class="metric-card metric-featured"><span class="metric-label">累计完成</span><div><strong id="totalCount">—</strong><span class="unit">局</span></div><span id="totalDetail" class="metric-foot">正在读取…</span><span class="metric-flower" aria-hidden="true">✳</span></article>
+        <article class="metric-card"><span class="metric-label">今天完成</span><div><strong id="todayCount">—</strong><span class="unit">局</span></div><span class="metric-foot">按完成时的本地日期</span></article>
+        <article class="metric-card"><span class="metric-label">最近 7 天</span><div><strong id="sevenCount">—</strong><span class="unit">局</span></div><span class="metric-foot">包括今天</span></article>
+        <article class="metric-card"><span class="metric-label">完成天数</span><div><strong id="activeDays">—</strong><span class="unit">天</span></div><span class="metric-foot">至少完成一局的日期数</span></article>
+      </div>
+      <div class="overview-grid">
+        <section class="panel calendar-panel" aria-labelledby="calendarTitle">
+          <div class="panel-heading"><div><h2 id="calendarTitle">最近 90 天</h2></div><span id="calendarTotal" class="mini-pill">— 局</span></div>
+          <div class="heatmap-wrap"><div class="weekday-labels" aria-hidden="true"><span>一</span><span></span><span>三</span><span></span><span>五</span><span></span><span>日</span></div><div id="heatmap" class="heatmap" role="img" aria-label="最近 90 天的完成情况，正在读取"></div></div>
+          <div class="heatmap-dates"><span id="calendarStart"></span><span id="calendarEnd"></span></div>
+          <div class="calendar-footer"><button id="view90Days" class="text-button" type="button">查看这段记录 <span aria-hidden="true">→</span></button><div class="heatmap-legend" aria-label="颜色越深表示完成次数越多"><span>少</span><i class="level-0"></i><i class="level-1"></i><i class="level-2"></i><i class="level-3"></i><i class="level-4"></i><span>多</span></div></div>
+        </section>
+        <section class="panel distribution-panel" aria-labelledby="groupTitle">
+          <div class="panel-heading"><div><h2 id="groupTitle">类型与难度</h2></div><span class="muted small">全部记录</span></div>
+          <div id="groupList" class="group-list"><p class="panel-empty">正在读取…</p></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="records" class="records-section section-gap" aria-labelledby="recordsTitle">
+      <div class="section-top"><div><h2 id="recordsTitle">完成记录 <span id="recordCount" class="heading-count">—</span></h2></div><div class="button-row"><button id="refreshData" class="button quiet" type="button">刷新</button><button id="exportCsv" class="button quiet" type="button" disabled>导出筛选结果 CSV</button></div></div>
+      <div class="panel records-panel">
+        <form id="filterForm" class="filter-grid">
+          <label>开始日期<input id="filterFrom" type="date" name="from" aria-label="筛选开始日期"></label>
+          <label>结束日期<input id="filterTo" type="date" name="to" aria-label="筛选结束日期"></label>
+          <label>类型<select id="filterVariant" name="variant"></select></label>
+          <label>难度<select id="filterDifficulty" name="difficulty"></select></label>
+          <label>模式<select id="filterMode" name="mode"></select></label>
+          <label>来源<select id="filterSource" name="source"></select></label>
+          <div class="filter-actions"><button class="button primary small-button" type="submit">筛选</button><button id="resetFilters" class="text-button" type="button">重置</button></div>
+        </form>
+        <div id="filterFeedback" class="feedback" role="alert" hidden></div>
+        <p id="recordsScrollHint" class="scroll-hint">在表格内滚动查看；窄屏可左右滑动，键盘聚焦后可用方向键滚动。</p>
+        <div class="table-scroll record-scroll" tabindex="0" role="region" aria-label="完成记录表格" aria-describedby="recordsScrollHint"><table class="records-table"><caption class="sr-only">完成记录，每页最多显示 50 条</caption><thead><tr><th scope="col">完成日期</th><th scope="col">类型 / 难度</th><th scope="col">用时</th><th scope="col">来源</th><th scope="col">备注</th><th scope="col"><span class="sr-only">操作</span></th></tr></thead><tbody id="recordRows"><tr><td colspan="6" class="table-empty">正在读取记录…</td></tr></tbody></table></div>
+        <div class="table-footer"><p id="pageInfo" class="muted small">每页 50 条</p><div class="button-row"><button id="prevPage" class="button quiet small-button" type="button" disabled>上一页</button><button id="nextPage" class="button quiet small-button" type="button" disabled>下一页</button></div></div>
+      </div>
+      <details id="trashSection" class="trash-section"><summary>回收站 <span id="trashCount" class="count-badge">0</span><span class="summary-note">删除后保留 7 天</span></summary><div class="trash-content"><div class="section-top"><p class="muted small">7 天内可以恢复。到期或永久删除后，只能从你已有的备份找回。</p><button id="purgeAll" class="button danger-outline small-button" type="button" disabled>清空回收站</button></div><div id="trashFeedback" class="feedback" role="alert" hidden></div><div class="table-scroll record-scroll" tabindex="0" role="region" aria-label="回收站记录表格，可上下左右滚动"><table class="records-table"><caption class="sr-only">回收站记录</caption><thead><tr><th scope="col">完成日期</th><th scope="col">类型 / 难度</th><th scope="col">预计清理日期</th><th scope="col">操作</th></tr></thead><tbody id="trashRows"></tbody></table></div><div class="table-footer"><p id="trashPageInfo" class="muted small"></p><div class="button-row"><button id="trashPrevPage" class="button quiet small-button" type="button" disabled>上一页</button><button id="trashNextPage" class="button quiet small-button" type="button" disabled>下一页</button></div></div></div></details>
+    </section>
+
+    <section id="backup" class="section-gap" aria-labelledby="backupTitle">
+      <div class="section-top"><div><h2 id="backupTitle">备份与迁移</h2></div><span class="local-note"><span aria-hidden="true">●</span> 无需账号，数据仅存本机</span></div>
+      <div class="backup-grid">
+        <article class="panel backup-card"><span class="feature-icon" aria-hidden="true">↓</span><h3>导出备份</h3><p>JSON 保存当前有效记录，方便换电脑或重装后恢复。回收站不在备份内，需要保留的记录请先恢复。</p><button id="exportJson" class="button primary" type="button">导出 JSON 备份</button><p id="lastExport" class="muted small">尚未发起过备份下载</p></article>
+        <article class="panel backup-card"><span class="feature-icon orange" aria-hidden="true">↑</span><h3>导入备份</h3><p>选择数独手记的 JSON 备份，检查后合并到现有记录。重复记录会跳过；文件最大 64 MB。</p><button id="importJson" class="button quiet" type="button">导入 JSON 备份</button><input id="importFile" type="file" accept=".json,application/json" hidden><div id="importFeedback" class="feedback" role="alert" hidden></div><p class="muted small">导入前建议先为现有记录备份。</p></article>
+      </div>
+      <div class="settings-strip"><div><h3>自动记录</h3><p id="pauseDescription">在已支持的数独页面，捕获新的完成。</p></div><label class="switch-label"><span id="pauseLabel">读取中</span><input id="pausedToggle" type="checkbox" role="switch" aria-label="暂停自动记录" disabled><span class="switch-track" aria-hidden="true"></span></label></div>
+    </section>
+
+    <section id="guide" class="section-gap guide-section" aria-labelledby="guideTitle"><div class="section-top"><div><h2 id="guideTitle">使用说明</h2></div></div><div class="guide-grid">
+      <details><summary>第一次安装与连接</summary><div><ol><li>在 Edge 打开 <strong>edge://extensions</strong>，开启“开发人员模式”。</li><li>点击“加载解压缩的扩展”，选择包含 manifest.json 的 extension 文件夹；保留这个文件夹。</li><li>刷新 sudoku.com 网页，在工具栏打开“数独手记”，确认当前页面状态。</li></ol><p>不需要一直打开这张统计页。历史成绩不会自动回溯，可以用“补记一局”添加。</p></div></details>
+      <details><summary>自动记录条件</summary><div><p>自动统计从插件连接后开始，只记录适配器捕获到的新成功。完成后请等胜利动画和成功界面显示，再关闭网页；如果工具栏仍提示未保存，请保留标签页并先导出待恢复数据。</p><p>网站改版、权限变化或插件禁用可能导致漏记；可以检查连接并手动补记。完成日期按当时的本地日期保存，跨午夜的游戏计入完成那一天。</p></div></details>
+      <details><summary>更新、换电脑与重新安装</summary><div><p>先导出 JSON 并确认文件已保存。更新时保留原安装目录，在 Edge 扩展管理页点击“重载”，再刷新数独网页。</p><p>换电脑、换浏览器配置或移动扩展文件夹，请按迁移处理：在新环境安装后导入 JSON。Edge 账号同步不会代替这份备份。</p></div></details>
+      <details><summary>隐私、容量、暂停与卸载</summary><div><p>记录只保存在当前浏览器配置的本机数据库中，不上传，也不在 InPrivate（隐私浏览）窗口启用。有效记录和回收站合计最多 50,000 条。</p><p>备份是普通明文文件，请自行妥善保存。“暂停自动记录”会保留历史，暂停期间不补抓。卸载扩展会清除本地记录，请先导出 JSON，确认下载完成后再到 Edge 扩展管理页移除。</p></div></details>
+      <details class="support-guide"><summary>当前支持范围与验证情况</summary><div><div class="table-scroll"><table class="support-table"><caption class="sr-only">不同数独类型与模式的验证范围</caption><thead><tr><th scope="col">类型 / 模式</th><th scope="col">范围</th><th scope="col">验证情况</th></tr></thead><tbody><tr><th scope="row">经典数独</th><td>简单、中等、困难、专家、大师、极限</td><td>难度分类已适配；极限已通过真实站点程序模拟通关</td></tr><tr><th scope="row">杀手数独</th><td>简单、中等、困难、专家</td><td>难度分类已适配；专家已通过真实站点程序模拟通关</td></tr><tr><th scope="row">每日挑战、明信片活动</th><td>实际开放的网页模式</td><td>已识别真实元数据，完成流程仍待实测</td></tr><tr><th scope="row">故事活动、首次挑战</th><td>提供兼容识别</td><td>仍待当前活动开放后验证</td></tr></tbody></table></div><p>程序模拟完成验证与人工长期游玩是不同的验证范围。当前页面是否已连接，请查看工具栏状态；未识别或遗漏的成绩可按相应模式手动补记。</p></div></details>
+    </div></section>
+    <footer class="page-footer"><span>数独手记</span><span id="appVersion">仅存本机</span></footer>
+  </main>
+
+  <dialog id="manualDialog" class="modal" aria-labelledby="manualTitle"><form id="manualForm"><div class="modal-heading"><div><h2 id="manualTitle">补记一局</h2></div><button id="closeManual" class="icon-button" type="button" aria-label="关闭补记窗口">×</button></div><p class="muted modal-intro">仅按日期补记，不推测精确完成时间。</p><div id="manualFeedback" class="feedback" role="alert" hidden></div><div class="form-grid"><label class="form-full">完成日期<input id="manualDate" type="date" required></label><label>数独类型<select id="manualVariant" required></select></label><label>难度<select id="manualDifficulty" required></select></label><label class="form-full">游玩模式<select id="manualMode" required></select></label><label class="form-full">备注 <span class="optional">可不填，最多 200 字</span><textarea id="manualNote" maxlength="200" rows="3" placeholder="例如：题目编号 12345"></textarea></label></div><p class="small muted">保存为“手动补记”，保留所选模式，并与自动记录分开展示来源。</p><div class="modal-actions"><button id="cancelManual" class="button quiet" type="button">取消</button><button id="saveManual" class="button primary" type="submit">保存记录</button></div></form></dialog>
+  <dialog id="confirmDialog" class="modal confirm-modal" aria-labelledby="confirmTitle"><div class="modal-heading"><h2 id="confirmTitle">确认操作</h2></div><p id="confirmDescription" class="confirm-description"></p><div class="modal-actions"><button id="confirmCancel" class="button quiet" type="button">取消</button><button id="confirmAccept" class="button primary" type="button">确认</button></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+  <script type="module" src="ui/dashboard.js"></script>
+</body>
+</html>

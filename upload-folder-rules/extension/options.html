@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>上传文件夹规则</title><link rel="stylesheet" href="ui.css"><script src="core.js" defer></script><script src="db.js" defer></script><script src="options.js" defer></script></head>
+<body><main class="shell">
+  <header class="top"><div><div class="eyebrow">Upload folder rules</div><h1>让上传从熟悉的文件夹开始</h1><p>按网站、文件类型与页面路径，记住你指定的文件夹。</p></div><div class="actions"><button id="pause">暂停全部</button><button id="export">导出规则</button><button id="import">导入规则</button><input id="import-file" type="file" accept=".json,application/json" hidden></div></header>
+  <div class="notice">设置一次文件夹，上传时在扩展窗口再点一次「选择文件」。选中的文件会交给当前网页；插件不会自行提交表单。</div>
+  <div class="layout">
+    <section class="panel"><div class="panel-head"><h2>我的规则</h2><button id="new">＋ 新规则</button></div><div id="rules" class="rule-list"></div><p class="help">具体子域名、页面路径和上传控件优先；之后按文件类型匹配。同等条件下，先添加的规则优先。</p></section>
+    <section class="panel"><div class="panel-head"><h2 id="editor-title">添加规则</h2><button id="canvas-preset" class="quiet">填入交大 Canvas</button></div>
+      <form id="editor">
+        <div class="form-grid">
+          <div class="field full"><label for="name">规则名称</label><input id="name" type="text" maxlength="100" placeholder="例如：交大 Canvas · PDF 作业"></div>
+          <div class="field full"><label for="domain">网站域名</label><input id="domain" type="text" required placeholder="例如 oc.sjtu.edu.cn，也可以粘贴完整网址"><label class="check"><input id="subdomains" type="checkbox" checked>包含这个域名下的子域名</label><small>同一域名下的不同课程和页面默认共用规则，不依赖课程编号。</small></div>
+          <div class="field"><label for="file-type">文件类型</label><select id="file-type"></select></div>
+          <div class="field"><label for="path">页面路径</label><input id="path" type="text" value="/" placeholder="/ 表示所有页面"><small>/courses 也包括 /courses/98447。</small></div>
+          <div id="custom-field" class="field full" hidden><label for="custom">自定义后缀或类型</label><input id="custom" type="text" placeholder=".pdf,.docx 或 image/*"><small>用逗号分隔。网页未指定上传类型时，可在选文件窗口切换规则。</small></div>
+          <div class="field full"><label>默认文件夹</label><div class="folder-box"><div id="folder-name" class="folder-name">尚未绑定</div><p id="folder-hint" class="muted"></p><div class="actions"><button id="bind" type="button">选择并绑定文件夹</button></div><div class="field" style="margin-top:12px"><label for="reuse" class="sr-only">复用已绑定文件夹</label><select id="reuse"><option value="">或复用其他规则的文件夹…</option></select></div><p class="help">首次需由你选择一次文件夹。浏览器只提供名称，不会向插件暴露完整路径。</p></div></div>
+        </div>
+        <details><summary>高级匹配与兼容性</summary><div class="field" style="margin-top:14px"><label for="selector">上传控件选择器（可留空）</label><input id="selector" type="text" placeholder="例如 input[name='attachment']"><small>多个上传入口没有声明文件类型时，可以按控件区分。</small></div><p>支持常见的文件上传框、关联标签、脚本触发的 click() / showPicker() 和单选、多选。整文件夹上传、相机拍摄、直接调用系统文件接口的特殊组件，以及被网页拦截的扩展连接，使用原上传方式。</p><p>跨域嵌入页面按嵌入页面自己的域名匹配，需要为该域名单独添加规则。某些网页拒绝程序交付的文件事件；这时使用原上传方式。</p></details>
+        <div class="footer-actions"><label class="check"><input id="enabled" type="checkbox" checked>启用这条规则</label><button id="save" class="primary" type="submit">授权网站并保存规则</button></div>
+      </form>
+    </section>
+  </div>
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+  <p class="help" style="margin-top:20px">规则与文件夹绑定仅保存在本机。导出不包含本地路径、文件内容或文件夹授权；导入后需重新绑定。首次授权、扩展更新或重新加载后，请刷新目标网页。</p>
+</main></body></html>
